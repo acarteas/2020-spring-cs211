@@ -55,12 +55,15 @@ vector<vector<int>> multiply(vector<vector<int>> a,
 	}
 }
 
+//add two positive integers
 int add(int a, int b)
 {
 	if (b > 0)
 	{
-		return add(a, b - 1);
+		return 1 + add(a, b - 1);
 	}
+
+	//base case (no more recursion)
 	return a;
 }
 
