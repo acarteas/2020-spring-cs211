@@ -53,6 +53,16 @@ namespace code_cs
                 }
             }
             Console.WriteLine("pages: " + max_pages + " date: " + max_date);
+
+            //you can also use LINQ to do the same thing
+            var groupQuery =
+                (from item in jobs
+                 group item by item.Date into dateGroup
+                 select new { Date = dateGroup.Key, Total = dateGroup.Sum(m => m.Page) });
+            var maxQuery = (from item in groupQuery
+                            where item.Total == groupQuery.Max(m => m.Total)
+                            select item).FirstOrDefault();
+            Console.WriteLine("pages: " + maxQuery.Total + " date: " + maxQuery.Date);
         }
     }
 }
