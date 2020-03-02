@@ -13,5 +13,14 @@ public class Card
     {
         Name = "";
     }
+
+    public bool IsFaceUp { get; private set; }
+    
+
+public void flip()
+    {
+        IsFaceUp = !IsFaceUp; 
+    }
+
 }
 

@@ -33,7 +33,11 @@ public class Deck
         Cards.AddLast(card);
     } 
 
-    public Card RemoveFromTop()
+    public void AddToBottom(Card card)
+    {
+        Cards.AddFirst(card);
+    }
+    public Card DrawFromTop()
     {
         Card topCard = Cards.Last();
         Cards.RemoveLast();
@@ -41,6 +45,13 @@ public class Deck
 
     }
 
+    public Card DrawFromBottom()
+    {
+        Card bottomCard = Cards.First();
+        Cards.RemoveFirst();
+        return bottomCard;
+    }
+    
     public void Shuffle()
     {
         cards = Cards.ToList();
@@ -60,6 +71,18 @@ public class Deck
             Cards.AddFirst(c);
         }
 
+    }
+
+    public void Merge(Deck anotherDeck)
+    {
+        
+        while(0 < anotherDeck.cards.Count)
+        {
+            AddToTop(anotherDeck.DrawFromTop());
+            
+        }
+       
+        
     }
 
 
