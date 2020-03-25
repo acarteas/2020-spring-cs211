@@ -9,6 +9,10 @@ public class PokerCard : Card
     public string Suit { get; set; }
 
     public int Value { get; set; }
+
+ 
+
+
     void Start()
     {
         
