@@ -6,14 +6,13 @@ namespace code_cs
 {
     public enum Severity { Low = 1, Medium, High, Extreme};
 
-    public class Patient : IComparable
+    public class Patient : IComparable<Patient>
     {
         public int Score
         {
             get
             {
-                //TODO: create calculation based on Age, Health, and Severity 
-                return 0;
+                return (int)Severity * (Age + Health);
             }
         }
 
@@ -22,7 +21,7 @@ namespace code_cs
         public Severity Severity { get; set; }
         public string Name { get; set; }
 
-        public int CompareTo(object obj)
+        public int CompareTo(Patient obj)
         {
             Patient other = obj as Patient;
 
