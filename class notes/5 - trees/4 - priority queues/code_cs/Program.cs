@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Caching;
 
 namespace code_cs
 {
@@ -21,6 +22,16 @@ namespace code_cs
             {
                 patients.Add(Patient.GenerateRandomPatient(names));
             }
+
+            PriortyQueue<Patient> toServe = new PriortyQueue<Patient>(patients);
+            for(int i = 0; i < 10; i++)
+            {
+                System.Console.WriteLine("{0} is saved!", toServe.GetFirst().Name);
+                toServe.Dequeue();
+            }
+            System.Console.WriteLine("Unfortunately, everyone else died :(");
+
         }
+
     }
 }
