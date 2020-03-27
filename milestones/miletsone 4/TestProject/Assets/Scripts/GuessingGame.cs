@@ -11,6 +11,10 @@ public class GuessingGame : MonoBehaviour
         Debug.Log("hello world");
         TreeBuilder builder = new TreeBuilder();
         var nodes = builder.BuildTree();
+       // nodes.ToArray;
+        DecisionTreeNode[] nodeArray = nodes.ToArray();
+
+
 
         /* nodes is now a list of all the questions read in from the file
          * Need to use the reverse tree traversal method and build up a tree
@@ -21,7 +25,39 @@ public class GuessingGame : MonoBehaviour
 
         rootNode.TrueResponseNode = null;
         rootNode.FalseResponseNode = null;
+        BuildTree(rootNode, nodeArray, 1);
+        Debug.Log("hello world");
+    }
 
+    void TakeValue(DecisionTreeNode node, DecisionTreeNode[] values, int offset)
+    {
+        if(node.FalseResponseNode == null)
+        {
+            node.FalseResponseNode = values[offset];
+        }
+        else
+        {
+            node.TrueResponseNode = values[offset];
+        }
+        return;
+    }
+   void BuildTree(DecisionTreeNode node, DecisionTreeNode[] values, int offset)
+    {
+        if(!node.IsLeafNode)
+        {
+            TakeValue(node, values, offset);
+            if(!node.FalseResponseNode.IsLeafNode)
+            {
+                BuildTree(node.FalseResponseNode, values, offset + 1);
+            }
+           
+
+        }
+        else
+        {
+            TakeValue(node, values, offset);
+            return;
+        }
     }
 
     // Update is called once per frame
