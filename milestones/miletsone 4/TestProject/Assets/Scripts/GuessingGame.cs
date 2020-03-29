@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using code_cs;
+using System;
+using UnityEngine.UI;
+using System.IO;
 
 public class GuessingGame : MonoBehaviour
 {
+    DecisionTreeNode rootNode;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,7 +23,7 @@ public class GuessingGame : MonoBehaviour
         /* nodes is now a list of all the questions read in from the file
          * Need to use the reverse tree traversal method and build up a tree
          * out of DecisionTreeNodes*/
-        DecisionTreeNode rootNode = new DecisionTreeNode();
+        rootNode = new DecisionTreeNode();
         rootNode.QuestionToAsk = nodes[0].QuestionToAsk;
         rootNode.IsLeafNode = nodes[0].IsLeafNode;
 
@@ -27,6 +31,8 @@ public class GuessingGame : MonoBehaviour
         rootNode.FalseResponseNode = null;
         BuildTree(rootNode, nodeArray, 1);
         Debug.Log("hello world");
+        IsThisYourChoice(rootNode, null, false);
+
     }
 
     void TakeValue(DecisionTreeNode node, DecisionTreeNode[] values, int offset)
@@ -46,10 +52,10 @@ public class GuessingGame : MonoBehaviour
         if(!node.IsLeafNode)
         {
             TakeValue(node, values, offset);
-            if(!node.FalseResponseNode.IsLeafNode)
-            {
+            //if(!node.FalseResponseNode.IsLeafNode)
+            //{
                 BuildTree(node.FalseResponseNode, values, offset + 1);
-            }
+           // }
            
 
         }
@@ -60,6 +66,108 @@ public class GuessingGame : MonoBehaviour
         }
     }
 
+    public void YbuttonPressed()
+    {
+        Debug.Log("You Pressed Yes");
+    }
+
+    public void NbuttonPressed()
+    {
+        Debug.Log("You Pressed No");
+    }
+
+    public void IsThisYourChoice(DecisionTreeNode node, DecisionTreeNode parentNode, bool lastAnswer)
+    {
+        if (!node.IsLeafNode)
+        {
+            //ask the user the y or n question
+            string ask = node.QuestionToAsk.question;
+            Debug.Log(ask);
+            // while(!Input.GetKeyDown(KeyCode.Y) && !Input.GetKeyDown(KeyCode.N))
+         //  {
+            if (Input.GetKeyDown(KeyCode.Y))
+            {
+                Debug.Log("You Pressed Y for Yes!");
+                IsThisYourChoice(node.TrueResponseNode, node, true);
+            }
+            else if (Input.GetKeyDown(KeyCode.N))
+            {
+                Debug.Log("You Pressed N for No!");
+                IsThisYourChoice(node.FalseResponseNode, node, false);
+            }
+               
+       // }
+
+        }
+        else
+        {
+            string ask = node.QuestionToAsk.question;
+            Debug.Log(ask);
+            if (Input.GetKeyDown(KeyCode.Y))
+            {
+                Debug.Log("You Pressed Y for Yes!");
+                Debug.Log("You Win, and the Game is Over. Congratulations!!!");
+             
+            }
+            else if (Input.GetKeyDown(KeyCode.N))
+            {
+                Debug.Log("You Pressed N for No!");
+                Debug.Log("What is the Answer?");
+                string userInput = Console.ReadLine();
+                Debug.Log("What is a question that could differentiate this question from the last?");
+                string newQuestion = Console.ReadLine();
+                DecisionTreeNode newQuestionNode = new DecisionTreeNode();
+                newQuestionNode.IsLeafNode = false;
+                newQuestionNode.QuestionToAsk.question = newQuestion;
+                DecisionTreeNode newLeafNode = new DecisionTreeNode();
+                newLeafNode.IsLeafNode = true;
+                newLeafNode.QuestionToAsk.question = userInput;
+
+
+                newQuestionNode.FalseResponseNode = node;
+                newQuestionNode.TrueResponseNode = newLeafNode;
+              
+               
+                if(lastAnswer == true)
+                {
+                    parentNode.TrueResponseNode = newQuestionNode;
+                }
+                else
+                {
+                    parentNode.FalseResponseNode = newQuestionNode;
+                }
+
+
+            }
+
+        }
+    }
+    
+    void SaveValue(DecisionTreeNode value)
+    {
+        string path = Application.dataPath + "/NewTree.txt";
+        //create file
+        if(!File.Exists(path))
+        {
+            File.WriteAllText(path, value.QuestionToAsk.question);
+        }
+        else
+        {
+            File.AppendAllText(path, value.QuestionToAsk.question);
+        }
+    }
+
+    //preorder traversal to save the tree
+    void SaveTree(DecisionTreeNode node)
+    {
+        SaveValue(node);
+        SaveTree(node.FalseResponseNode);
+        SaveTree(node.TrueResponseNode);
+
+            
+
+        
+    }
     // Update is called once per frame
     void Update()
     {
@@ -68,8 +176,6 @@ public class GuessingGame : MonoBehaviour
             Output the value of the node (i.e. next question to ask, "e.g. does it have fur?")
                 If the user's response is "yes", pull the next question from the right child
                 If the user's response is "no", pull the next question from the left child */
-
-
 
 
 
