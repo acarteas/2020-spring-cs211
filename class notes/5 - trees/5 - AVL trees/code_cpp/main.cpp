@@ -19,12 +19,12 @@ using namespace std;
 
 int main(void)
 {
-	AvlTree<int> bst{};
+	AvlTree<int>* tree = new AvlTree<int>{};
 
 	for (int i = 0; i < 10; i++)
 	{
-		bst.addElement(rand() % 100);
+		tree->addElement(rand() % 100);
 	}
-	bst.removeElement(41);
+	tree->removeElement(41);
 	return 0;
 }

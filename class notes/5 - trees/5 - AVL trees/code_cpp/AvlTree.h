@@ -38,7 +38,7 @@ protected:
 		return new_root;
 	}
 
-	BinaryTreeNode<T>* rotateLeft(BinaryTreeNode<T>* node)
+	BinaryTreeNode<T>* rotateRight(BinaryTreeNode<T>* node)
 	{
 		BinaryTreeNode<T>* new_root = node->left_child;
 		node->left_child = new_root->right_child;
@@ -50,10 +50,11 @@ protected:
 	{
 		if (node == nullptr)
 		{
-			return new AvlTreeNode<T>{ value };
+			return setHeight(new AvlTreeNode<T>{ value });
 		}
 		BinaryTreeNode<T>* result = BinarySearchTree<T>::addElementRec(node, value);
-		return setHeight(result);
+		result = setHeight(result);
+		return result;
 	}
 
 };
