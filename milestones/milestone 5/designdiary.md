@@ -24,3 +24,12 @@ to see if I can deepen my understading on how to get the game to test properly. 
 in the homework instructions that the instructions were explicit in a way that could be identiifed when trying to approach the problem programatically after doing it 
 on paper.
 
+
+04/15/2020
+
+After writing what I though was most of my code, I couldn't get it to run because it was not displaying the pre-loaded game scene. I misunderstood what was avaible in terms of the 
+project being set up for us, and I had a classmate take a look, and they instantly noticed that I was on an older version of unity, and that the scene should populate with the click of
+playing the game. Once I installed the newest version, I tried to run my project, but it still wouldn't work when I was trying to get it to load. I deleted my files recommited them, and re-cloned 
+your repo, so that I could get a fresh version of project 5. I copied my existing code, and thankfully I was able to start testing the code and seeing where my logical flaws were. I have narrowed it down
+to two lines of code, but I need to figure out in the getNeighbor function how to move the positions of the tile, so that I'm not returning the same tile each time. As of right now, I feel like I have made good
+progress in getting my code interfaced with Unity, and I'm excited to finish the project, ahd hopefully have a fully function game like the GIF shows on git. '
