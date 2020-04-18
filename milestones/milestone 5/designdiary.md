@@ -32,4 +32,15 @@ project being set up for us, and I had a classmate take a look, and they instant
 playing the game. Once I installed the newest version, I tried to run my project, but it still wouldn't work when I was trying to get it to load. I deleted my files recommited them, and re-cloned 
 your repo, so that I could get a fresh version of project 5. I copied my existing code, and thankfully I was able to start testing the code and seeing where my logical flaws were. I have narrowed it down
 to two lines of code, but I need to figure out in the getNeighbor function how to move the positions of the tile, so that I'm not returning the same tile each time. As of right now, I feel like I have made good
-progress in getting my code interfaced with Unity, and I'm excited to finish the project, ahd hopefully have a fully function game like the GIF shows on git. '
+progress in getting my code interfaced with Unity, and I'm excited to finish the project, ahd hopefully have a fully function game like the GIF shows on git. 
+
+
+
+04/17/2020
+
+
+I realized I was using the method contains, but really I should have been using get position. I was really close, but the lab today really helped me realize where I was going wrong. 
+I also didn't realize that I needed to comment out the found= true! I should have been better at reading the comments and instructions, so I probably spent more time than needed debugging the 
+code, but I'm not upset at the experience because I feel like my debugging skills, and the ability to walk through code is getting strong because I have a better understanding of what
+I'm look for. I'm really proud that I asked for help, spent several days working on it, and didn't give up. Perseverence is key, and taking breaks. The beginning of the semester was rough
+because I would spend so much time racking my brain, but not really getting anywhere. Now, I'm already thinking about what project I want to do, and how I can make it fun and creative. '

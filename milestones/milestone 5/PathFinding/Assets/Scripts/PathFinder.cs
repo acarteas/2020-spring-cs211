@@ -76,12 +76,18 @@ public class PathFinder
             // Tile myTile = item.GetMostRecentTile();
 
             //*If the item contains the final tile in the path, you are done.
-            if (pathToCheck.Contains(endingTile))
-            {
-                pathFound = pathToCheck;
-                found = true;
-                break;
+            /* if (pathToCheck.Contains(endingTile))
+             {
+                 pathFound = pathToCheck;
+                 found = true;
+               //  break;
 
+             }
+             */
+            if (pathToCheck.GetMostRecentTile().Position == end)
+            {
+                discoveredPath = pathToCheck;
+                found = true;
             }
 
             // *If not, for each of the tile's neighbors (there should be 4 since we're using square tiles)
@@ -92,6 +98,7 @@ public class PathFinder
 
                 //call function getNeighbors -created on 04/13/2020
                 List<Tile> neighbors = getNeighbors(map, recentTile, tileFactory);
+              //  List<Tile> neighbors = findNeighbors(map, recentTile, tileFactory);
 
 
                 for (int i = 0; i < neighbors.Count; i++)
@@ -99,9 +106,10 @@ public class PathFinder
                     TilePath newPath = new TilePath(pathToCheck);
                     Tile thisneighbor = neighbors[i];
                     newPath.AddTileToPath(thisneighbor);
-                    if (newPath.Contains(endingTile))
+                    // if (newPath.Contains(endingTile))
+                    if (newPath.GetMostRecentTile().Position == end)
                     {
-                        pathFound = newPath;
+                        discoveredPath = newPath;
                         found = true;
                         break;
                     }
@@ -115,22 +123,23 @@ public class PathFinder
 
             //This line ensures that we don't get an infinite loop in Unity.
             //You will need to remove it in order for your pathfinding algorithm to work.
-            found = true;
+           // found = true;
         }
-        discoveredPath = pathFound;
+       // discoveredPath = pathFound;
         return discoveredPath;
     }
+
+    
+
     //this gets the tile positions and adds the tiles(bottom, above, leftside, rightside) to the list titled "neighbor"
     static List<Tile> getNeighbors(Tilemap map, Tile tile, TileFactory tileFactory)
     {
         List<Tile> neighbors = new List<Tile>();
 
         // getting specific neighbor from the tile path. 
-        //THERE IS AN ERROR IN ONE OF THESE LINES: RETURNS SAME TILE AND NOT NEIGHBOR
         TileBase b = map.GetTile(new Vector3Int(tile.Position.x, tile.Position.y + 1, tile.Position.z));
         Tile aboveTile = tileFactory.GetTile(b.name);
-       
-        
+        aboveTile.Position = new Vector3Int(tile.Position.x, tile.Position.y + 1, tile.Position.z);
         if (aboveTile != null)
         {
             neighbors.Add(aboveTile);
@@ -138,6 +147,8 @@ public class PathFinder
 
         b = map.GetTile(new Vector3Int(tile.Position.x + 1, tile.Position.y, tile.Position.z));
         Tile rightSideTile = tileFactory.GetTile(b.name);
+        rightSideTile.Position = new Vector3Int(tile.Position.x + 1, tile.Position.y, tile.Position.z);
+
         if (rightSideTile != null)
         {
             neighbors.Add(rightSideTile);
@@ -145,6 +156,7 @@ public class PathFinder
 
         b = map.GetTile(new Vector3Int(tile.Position.x - 1, tile.Position.y, tile.Position.z));
         Tile leftSideTile = tileFactory.GetTile(b.name);
+        leftSideTile.Position = new Vector3Int(tile.Position.x - 1, tile.Position.y, tile.Position.z);
         if (leftSideTile != null)
         {
             neighbors.Add(leftSideTile);
@@ -152,6 +164,7 @@ public class PathFinder
 
         b = map.GetTile(new Vector3Int(tile.Position.x, tile.Position.y - 1, tile.Position.z));
         Tile belowTile = tileFactory.GetTile(b.name);
+        belowTile.Position = new Vector3Int(tile.Position.x, tile.Position.y - 1, tile.Position.z);
         if (belowTile != null)
         {
             neighbors.Add(belowTile);
