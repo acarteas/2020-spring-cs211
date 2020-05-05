@@ -26,39 +26,48 @@ void bitAdd(int a, int b, int c, int& result, int& carry)
 	bitAdd(a, b, ab_sum, ab_carry);
 
 	int abc_sum, abc_carry;
-	bitAdd(ab_carry, c, abc_sum, abc_carry);
+	bitAdd(ab_sum, c, abc_sum, abc_carry);
 	result = abc_sum;
 	carry = ab_carry | abc_carry;
 }
 
+int toBit(int number)
+{
+	return number & 1;
+}
+
+void shift(int &number)
+{
+	number = number >> 1;
+}
+
 int add(int a, int b)
 {
-	int mask = 1;
-	int result = 0, carry = 0;
-	int final_result = 0;
-	int a_bit = (a & mask) > 0;
-	int b_bit = (b & mask) > 0;
+	int results[32], carries[32];
 
-	bitAdd(a_bit, b_bit, result, carry);
-	final_result = final_result | 1;
-
-	for (int i = 2; i < 32; i++)
+	//peform add
+	bitAdd(toBit(a), toBit(b), results[0], carries[0]);
+	for (int i = 1; i < 32; i++)
 	{
-		mask = mask << 1;
-		final_result = final_result << 1;
-		a_bit = (a & mask) > 0;
-		b_bit = (b & mask) > 0;
-		bitAdd(a_bit, b_bit, carry, result, carry);
-		final_result = final_result | result;
-		cout << result;
+		shift(a);
+		shift(b);
+		bitAdd(toBit(a), toBit(b), carries[i - 1], results[i], carries[i]);
+	}
+
+	//convert to int
+	int result = 0;
+	for (int i = 31; i > -1; i--)
+	{
+		result = result << 1;
+		result = result | results[i];
 		
 	}
-	return final_result;
+	return result;
 }
 
 int main(void)
 {
 	int result, carry;
-	add(18, 5);
+	add(123, 456);
 	return 0;
 }
